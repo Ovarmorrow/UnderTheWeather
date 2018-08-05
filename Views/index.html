@@ -1,0 +1,188 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/assets/style.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>UnderTheWeather</title>
+</head>
+
+<body>
+    <div class='wrapper'>
+
+        <form>
+            <input class='searchbar transparent' id='search' type='text' placeholder='enter city' />
+            <input class='button transparent' id='button' type="button" value='GO' />
+        </form>
+
+        <div class='panel'>
+            <h2 class='city' id='city'></h2>
+            <div class='weather' id='weather'>
+                <div class='group secondary'>
+                    <h3 id='dt'></h3>
+                    <h3 id='description'></h3>
+                </div>
+                <div class='group secondary'>
+                    <h3 id='wind'></h3>
+                    <h3 id='humidity'></h3>
+                </div>
+                <h1 id="temperature"></h1>
+                <div class='temperature' id='temperature'>
+                    <h1 class='temp' id='temp'>
+                        <i id="condition" class="wi"></i>
+                        <!-- wi wi-day-sunny -->
+                    </h1>
+                </div>
+                <div class='forecast' id='forecast'></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var cityInput = document.getElementById('search');
+        var cityBtn = document.getElementById('button');
+        var appid = "ece074dcc6da11af9c10f9dbde01ee18";
+        var url =
+            "http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=ece074dcc6da11af9c10f9dbde01ee18&units=imperial";
+        var toTitleCase = function (str) {
+            str = str.toLowerCase().split(' ');
+            for (var i = 0; i < str.length; i++) {
+                str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+            }
+            return str.join(' ');
+        };
+        // create event on button click
+
+        cityBtn.addEventListener("click", function () {
+            cityInput = document.getElementById("search").value;
+            //create a new url, replace charlotte with searched city, remove potential space with %20 which is url encoding spaces
+            newUrl = url.replace('Charlotte', cityInput.replace(' ', '%20'));
+            console.log("newUrl", newUrl);
+            //var smurf = newUrl;
+            //var jelly = smurf
+            //console.log("Smurf", smurf);
+            //console.log("Jelly", jelly);
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    console.log('responseText:' + xmlhttp.responseText);
+                    try {
+                        //this is where you have access to "weather data"
+                        var data = JSON.parse(xmlhttp.responseText);
+                        console.log("Data", data);
+                        console.log("Data", data.main.humidity);
+                        showWeather(data);
+                    } catch (err) {
+                        console.log(err.message + " in " + xmlhttp.responseText);
+                        return;
+                    }
+                }
+            };
+            xmlhttp.open("GET", newUrl, true);
+            xmlhttp.send(null);
+
+
+            // decode your results variable here in the appropriate way
+            // e.g. into a JSON object 
+            // var d = document.getElementById("results");
+
+            // var res = "<ul>";
+
+            // for (var i = 0; i < results.lenght; i++)
+            //     res = res + "<li>" + i.text + "</li>";
+
+            // res = res + "</li>";
+            // d.innerHTML = res;
+            console.log("Bloop")
+        });
+
+        // request.onload = function () {
+
+
+
+        // set variable for search result
+
+        // set varaibles for secondary items
+        function showWeather(data) {
+            var icon;
+            //set API weather description to str variable, for use to titleCase the result
+            var str = data.weather["0"].description
+            //document.getElementById("weather").innerHTML = data.weather;
+            document.getElementById("temperature").innerHTML = "Temperature: " + Math.round(data.main.temp) + "°";
+            document.getElementById("city").innerHTML = data.name + ", " + data.sys.country;
+            //date  document.getElementById("dt").innerHTML = data.dt;
+            document.getElementById("wind").innerHTML = "Wind: " + Math.round(data.wind.speed) + "mph";
+            document.getElementById("humidity").innerHTML = "Humidity:" + data.main.humidity + "°";
+            document.getElementById("description").innerHTML = toTitleCase(str);
+
+            //IF Statment version
+            // if (data.weather["0"].main == "Clouds") {
+            //     icon = "wi-day-cloudy";
+
+            // } else {
+            //     icon = "wi-fire"
+            // }
+
+            switch (data.weather["0"].main) {
+                case "Clouds":
+                    icon = "wi-cloudy";
+                    break;
+
+                case "Clear":
+                    icon = "wi-day-sunny";
+                    break;
+
+                case "Snow":
+                    icon = "wi-snow";
+                    break;
+
+                case "Rain":
+                    icon = "wi-rain";
+                    break;
+
+                case "Thunderstorm":
+                    icon = "wi-thunderstorm";
+                    break;
+
+                case "Wind":
+                    icon = "wi-strong-wind";
+                    break;
+
+                case "Haze":
+                    icon = "wi-day-haze";
+                    break;
+
+                case "Sprinkle":
+                    icon = "wi-day-sprinkle";
+                    break;
+
+                case "Sleet":
+                    icon = "wi-sleet";
+                    break;
+
+                default:
+                    icon = "wi-fire"
+            }
+            document.getElementById("condition").classList.add(icon);
+
+            //build a for loop, for weather array, for each item inside
+            //document.getElementById("wind").innerHTML = wind;
+        }
+
+        // function changeIcon {
+        //     var icon = 
+        //     
+        // }
+
+        // set id city to "searched" city
+
+        // once data returned, change to variables - IE wind, temp, humiditiy
+
+
+        //http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=ece074dcc6da11af9c10f9dbde01ee18&units=imperial
+    </script>
+
+</body>
+
+</html>
