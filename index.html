@@ -13,7 +13,7 @@
 
         <form>
             <input class='searchbar transparent' id='search' type='text' placeholder='enter city' />
-            <input class='button transparent' id='button' type="button" value='GO' />
+            <a class='button' id='button'>GO</a>
         </form>
 
         <div class='panel'>
@@ -42,8 +42,6 @@
     <script>
         var cityInput = document.getElementById('search');
         const body = document.getElementsByTagName('body')[0];
-        // body.style.backgroundColor = 'red';
-        // console.log("Background Color:" , backgroundColor);
         var cityBtn = document.getElementById('button');
         var appid = "ece074dcc6da11af9c10f9dbde01ee18";
         var url =
@@ -56,8 +54,7 @@
             return str.join(' ');
         };
         // create event on button click
-
-        cityBtn.addEventListener("click", function () {
+            cityBtn.addEventListener("click", function () {
             cityInput = document.getElementById("search").value;
             //create a new url, replace charlotte with searched city, remove potential space with %20 which is url encoding spaces
             newUrl = url.replace('Charlotte', cityInput.replace(' ', '%20'));
@@ -119,14 +116,6 @@
             document.getElementById("humidity").innerHTML = "Humidity:" + data.main.humidity + "°";
             document.getElementById("description").innerHTML = toTitleCase(str);
 
-            //IF Statment version
-            // if (data.weather["0"].main == "Clouds") {
-            //     icon = "wi-day-cloudy";
-
-            // } else {
-            //     icon = "wi-fire"
-            // }
-
             switch (data.weather["0"].main) {
                 case "Clouds":
                     icon = "wi-cloudy";
@@ -173,40 +162,20 @@
             }
             document.getElementById("condition").classList.add(icon);
 
-            // switch (data.weather["0"].main.temp) {
-            //     //hot
-            //     case "80 ... 110":
-            //         body.style.backgroundColor.classList.add = "hot";
-            //         break;
-
-            //     //warm
-            //     case "70 ... 79":
-            //     body.style.backgroundColor.classList.add  = "warm";
-            //         break;
-
-            //     //cool
-            //     case "55 ... 69":
-            //     body.style.backgroundColor.classList.add  = "cool";
-            //         break;
-
-            //      //cold
-            //      case "0 ... 54":
-            //      body.style.backgroundColor.classList.add  = "cold";
-            //         break;
-
-            //     default:
-            //         body.style.backgroundColor.classList.add  = "warm";
-            // }
-                console.log(data.main.temp >= 70);
-                console.log(typeof data.main.temp);
+                // console.log(data.main.temp >= 70);
+                // console.log(typeof data.main.temp);
             if (data.main.temp >= 80) {
-                body.classList.add('hot', 'button-hot');
+                body.classList.add('hot');
+                cityBtn.classList.add('hot');
             } else if (data.main.temp >= 70) {
-                body.classList.add('warm', 'button-warm');
+                body.classList.add('warm');
+                cityBtn.classList.add('warm');
             } else if (data.main.temp >= 60) {
-                body.classList.add('cool', 'button-cool');
+                body.classList.add('cool');
+                cityBtn.classList.add('cool');
             } else {
-                body.classList.add('cold', 'button-cold');
+                body.classList.add('cold');
+                cityBtn.classList.add('cold');
             }
 
         }
