@@ -8,7 +8,7 @@
     <title>UnderTheWeather</title>
 </head>
 
-<body>
+<body class="tempBG">
     <div class='wrapper'>
 
         <form>
@@ -41,6 +41,9 @@
 
     <script>
         var cityInput = document.getElementById('search');
+        const body = document.getElementsByTagName('body')[0];
+        // body.style.backgroundColor = 'red';
+        // console.log("Background Color:" , backgroundColor);
         var cityBtn = document.getElementById('button');
         var appid = "ece074dcc6da11af9c10f9dbde01ee18";
         var url =
@@ -58,7 +61,7 @@
             cityInput = document.getElementById("search").value;
             //create a new url, replace charlotte with searched city, remove potential space with %20 which is url encoding spaces
             newUrl = url.replace('Charlotte', cityInput.replace(' ', '%20'));
-            console.log("newUrl", newUrl);
+            // console.log("newUrl", newUrl);
             //var smurf = newUrl;
             //var jelly = smurf
             //console.log("Smurf", smurf);
@@ -66,12 +69,12 @@
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    console.log('responseText:' + xmlhttp.responseText);
+                    // console.log('responseText:' + xmlhttp.responseText);
                     try {
                         //this is where you have access to "weather data"
                         var data = JSON.parse(xmlhttp.responseText);
                         console.log("Data", data);
-                        console.log("Data", data.main.humidity);
+                        // console.log("Data", data.main.humidity);
                         showWeather(data);
                     } catch (err) {
                         console.log(err.message + " in " + xmlhttp.responseText);
@@ -94,7 +97,7 @@
 
             // res = res + "</li>";
             // d.innerHTML = res;
-            console.log("Bloop")
+            // console.log("Bloop")
         });
 
         // request.onload = function () {
@@ -157,6 +160,10 @@
                     icon = "wi-day-sprinkle";
                     break;
 
+                case "Mist":
+                    icon = "wi-night-snow-wind";
+                    break;
+
                 case "Sleet":
                     icon = "wi-sleet";
                     break;
@@ -166,18 +173,44 @@
             }
             document.getElementById("condition").classList.add(icon);
 
-            //build a for loop, for weather array, for each item inside
-            //document.getElementById("wind").innerHTML = wind;
+            // switch (data.weather["0"].main.temp) {
+            //     //hot
+            //     case "80 ... 110":
+            //         body.style.backgroundColor.classList.add = "hot";
+            //         break;
+
+            //     //warm
+            //     case "70 ... 79":
+            //     body.style.backgroundColor.classList.add  = "warm";
+            //         break;
+
+            //     //cool
+            //     case "55 ... 69":
+            //     body.style.backgroundColor.classList.add  = "cool";
+            //         break;
+
+            //      //cold
+            //      case "0 ... 54":
+            //      body.style.backgroundColor.classList.add  = "cold";
+            //         break;
+
+            //     default:
+            //         body.style.backgroundColor.classList.add  = "warm";
+            // }
+                console.log(data.main.temp >= 70);
+                console.log(typeof data.main.temp);
+            if (data.main.temp >= 80) {
+                body.classList.add('hot', 'button-hot');
+            } else if (data.main.temp >= 70) {
+                body.classList.add('warm', 'button-warm');
+            } else if (data.main.temp >= 60) {
+                body.classList.add('cool', 'button-cool');
+            } else {
+                body.classList.add('cold', 'button-cold');
+            }
+
         }
 
-        // function changeIcon {
-        //     var icon = 
-        //     
-        // }
-
-        // set id city to "searched" city
-
-        // once data returned, change to variables - IE wind, temp, humiditiy
 
 
         //http://api.openweathermap.org/data/2.5/weather?q=Charlotte&APPID=ece074dcc6da11af9c10f9dbde01ee18&units=imperial

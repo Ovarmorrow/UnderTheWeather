@@ -15,6 +15,11 @@ h4 {
 body {
     background-color: rgb(25, 87, 219);
 }
+
+body.tempBG {
+	transition: background-color 400ms linear;
+}
+
 a {
 	color: white;
 	opacity: 0.54;
