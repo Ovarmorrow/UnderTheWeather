@@ -63,24 +63,24 @@
             //var jelly = smurf
             //console.log("Smurf", smurf);
             //console.log("Jelly", jelly);
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var xmlhttps = new XMLHttpRequest();
+            xmlhttps.onreadystatechange = function () {
+                if (xmlhttps.readyState == 4 && xmlhttps.status == 200) {
                     // console.log('responseText:' + xmlhttp.responseText);
                     try {
                         //this is where you have access to "weather data"
-                        var data = JSON.parse(xmlhttp.responseText);
+                        var data = JSON.parse(xmlhttps.responseText);
                         console.log("Data", data);
                         // console.log("Data", data.main.humidity);
                         showWeather(data);
                     } catch (err) {
-                        console.log(err.message + " in " + xmlhttp.responseText);
+                        console.log(err.message + " in " + xmlhttps.responseText);
                         return;
                     }
                 }
             };
-            xmlhttp.open("GET", newUrl, true);
-            xmlhttp.send(null);
+            xmlhttps.open("GET", newUrl, true);
+            xmlhttps.send(null);
 
 
             // decode your results variable here in the appropriate way
