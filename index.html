@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>UnderTheWeather</title>
 </head>
 
@@ -35,7 +35,6 @@
                         <!-- wi wi-day-sunny -->
                     </h1>
                 </div>
-                <div class='forecast' id='forecast'></div>
             </div>
         </div>
     </div>
@@ -64,24 +63,24 @@
             //var jelly = smurf
             //console.log("Smurf", smurf);
             //console.log("Jelly", jelly);
-            var xmlhttps = new XMLHttpRequest();
-            xmlhttps.onreadystatechange = function () {
-                if (xmlhttps.readyState == 4 && xmlhttps.status == 200) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     // console.log('responseText:' + xmlhttp.responseText);
                     try {
                         //this is where you have access to "weather data"
-                        var data = JSON.parse(xmlhttps.responseText);
+                        var data = JSON.parse(xmlhttp.responseText);
                         console.log("Data", data);
                         // console.log("Data", data.main.humidity);
                         showWeather(data);
                     } catch (err) {
-                        console.log(err.message + " in " + xmlhttps.responseText);
+                        console.log(err.message + " in " + xmlhttp.responseText);
                         return;
                     }
                 }
             };
-            xmlhttps.open("GET", newUrl, true);
-            xmlhttps.send(null);
+            xmlhttp.open("GET", newUrl, true);
+            xmlhttp.send(null);
 
 
             // decode your results variable here in the appropriate way
@@ -116,6 +115,8 @@
             document.getElementById("wind").innerHTML = "Wind: " + Math.round(data.wind.speed) + "mph";
             document.getElementById("humidity").innerHTML = "Humidity:" + data.main.humidity + "°";
             document.getElementById("description").innerHTML = toTitleCase(str);
+
+            
 
             switch (data.weather["0"].main) {
                 case "Clouds":
@@ -159,8 +160,10 @@
                     break;
 
                 default:
-                    icon = "wi-fire"
+                    icon = "wi-fire";
+
             }
+            
             document.getElementById("condition").classList.add(icon);
 
                 // console.log(data.main.temp >= 70);
